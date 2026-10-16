@@ -301,5 +301,25 @@
     },
     "default_group": "other",
     "default_group_limit": 4
+  },
+  "wechat": {
+    "enabled": false
+  },
+  "webhook": {
+    "enabled": true,
+    "url_env": "HORIZON_WEBHOOK_URL",
+    "delivery": "summary_and_items",
+    "overview_position": "first",
+    "platform": "generic",
+    "layout": "markdown",
+    "fallback_layout": "markdown",
+    "languages": [
+      "zh"
+    ],
+    "request_body": {
+      "chat_id": "5493574923",
+      "text": "#{message_title}\n\n#{summary?limit=3800}"
+    },
+    "headers": ""
   }
 }
