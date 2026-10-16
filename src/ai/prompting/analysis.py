@@ -27,7 +27,9 @@ Return valid JSON only:
   "reason": "<concise explanation>",
   "summary": "<one-sentence summary>",
   "tags": ["<tag>", "..."]
-}}"""
+}}
+
+Write the "summary" and "reason" fields in Simplified Chinese. Keep "tags" as short English keywords."""
 
 
 def analysis_user_prompt(

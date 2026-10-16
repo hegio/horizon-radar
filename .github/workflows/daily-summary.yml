@@ -1,0 +1,58 @@
+name: Daily Horizon Summary
+
+on:
+  schedule:
+    # GitHub cron uses UTC. 23:00 UTC = 07:00 Asia/Taipei (next morning).
+    - cron: '0 23 * * *'
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'Fetch window in hours (default 24)'
+        required: false
+        default: '24'
+
+jobs:
+  daily-summary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.26"
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Run Horizon (cloud model)
+        env:
+          MAAS_API_KEY: ${{ secrets.MAAS_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: uv run horizon -c data/config.github.json --hours ${{ inputs.hours || '24' }} -l INFO
+
+      - name: Build collapsible briefing page
+        run: |
+          python scripts/make_collapsible.py \
+            "data/summaries/$(date +'%Y-%m-%d')-zh.md" \
+            "docs/_posts/$(date +'%Y-%m-%d')-summary-zh.md"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          keep_files: true
+          commit_message: "Daily Summary: ${{ github.run_id }}"
+          publish_branch: gh-pages
+          enable_jekyll: true
