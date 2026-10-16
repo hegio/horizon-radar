@@ -47,9 +47,9 @@ jobs:
 
       - name: Run Horizon
         env:
-          MAAS_API_KEY: *** secrets.MAAS_API_KEY }}
-          LOCAL_API_KEY: *** secrets.LOCAL_API_KEY }}
-          GITHUB_TOKEN: *** github.token }}
+          MAAS_API_KEY: ${{ secrets.MAAS_API_KEY }}
+          LOCAL_API_KEY: ${{ secrets.LOCAL_API_KEY }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: uv run horizon -c data/config.github.json --hours ${{ inputs.hours || '24' }} -l INFO
 
       - name: Build collapsible briefing page
