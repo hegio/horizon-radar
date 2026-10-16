@@ -2,8 +2,8 @@ name: Daily Horizon Summary
 
 on:
   schedule:
-    # GitHub cron uses UTC. 23:00 UTC = 07:00 Asia/Taipei (next morning).
-    - cron: '0 23 * * *'
+    # GitHub cron uses UTC. 19:00 UTC = 03:00 Asia/Taipei (next morning).
+    - cron: '0 19 * * *'
   workflow_dispatch:
     inputs:
       hours:
