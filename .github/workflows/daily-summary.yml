@@ -10,6 +10,11 @@ on:
         description: 'Fetch window in hours (default 24)'
         required: false
         default: '24'
+      endpoint:
+        description: 'Model endpoint: cloud (default) or local (needs repo var LOCAL_AI_BASE_URL + secret LOCAL_API_KEY, and your PC must be online)'
+        type: choice
+        options: [cloud, local]
+        default: cloud
 
 jobs:
   daily-summary:
@@ -35,10 +40,16 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
-      - name: Run Horizon (cloud model)
+      - name: Select model endpoint
         env:
-          MAAS_API_KEY: ${{ secrets.MAAS_API_KEY }}
-          GITHUB_TOKEN: ${{ github.token }}
+          LOCAL_AI_BASE_URL: ${{ vars.LOCAL_AI_BASE_URL }}
+        run: python scripts/set_endpoint.py ${{ inputs.endpoint || 'cloud' }}
+
+      - name: Run Horizon
+        env:
+          MAAS_API_KEY: *** secrets.MAAS_API_KEY }}
+          LOCAL_API_KEY: *** secrets.LOCAL_API_KEY }}
+          GITHUB_TOKEN: *** github.token }}
         run: uv run horizon -c data/config.github.json --hours ${{ inputs.hours || '24' }} -l INFO
 
       - name: Build collapsible briefing page

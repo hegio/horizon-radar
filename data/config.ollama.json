@@ -86,20 +86,6 @@
         "profile": "world-news"
       },
       {
-        "name": "中国数字时代",
-        "url": "https://chinadigitaltimes.net/chinese/feed",
-        "enabled": true,
-        "category": "cn-sensitive",
-        "profile": "world-news"
-      },
-      {
-        "name": "Google News 中国政治",
-        "url": "https://news.google.com/rss/search?q=%E4%B8%AD%E5%9B%BD%E6%94%BF%E6%B2%BB&hl=zh-CN&gl=CN&ceid=CN%3Azh-Hans",
-        "enabled": true,
-        "category": "cn-sensitive",
-        "profile": "world-news"
-      },
-      {
         "name": "BBC World",
         "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
         "enabled": true,
@@ -288,8 +274,7 @@
         "name": "中国",
         "limit": 6,
         "categories": [
-          "cn-news",
-          "cn-sensitive"
+          "cn-news"
         ]
       },
       "us_intl": {
