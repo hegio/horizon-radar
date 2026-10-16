@@ -269,7 +269,7 @@
     }
   },
   "digest": {
-    "max_items": 25,
+    "max_items": 30,
     "profile_order": [
       "world-news",
       "tech-news",
@@ -279,14 +279,14 @@
     "category_groups": {
       "hk": {
         "name": "香港",
-        "limit": 4,
+        "limit": 5,
         "categories": [
           "hk-news"
         ]
       },
       "cn": {
         "name": "中国",
-        "limit": 5,
+        "limit": 6,
         "categories": [
           "cn-news",
           "cn-sensitive"
@@ -294,7 +294,7 @@
       },
       "us_intl": {
         "name": "美国/国际",
-        "limit": 6,
+        "limit": 7,
         "categories": [
           "us-news",
           "intl-news"
@@ -302,7 +302,7 @@
       },
       "ai": {
         "name": "AI/科技",
-        "limit": 7,
+        "limit": 8,
         "categories": [
           "ai-news",
           "ai-tools",
@@ -315,6 +315,6 @@
       }
     },
     "default_group": "other",
-    "default_group_limit": 3
+    "default_group_limit": 4
   }
 }
