@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 时政简报--瑞
+title: 国内外时政简报--瑞
 ---
 
 ## 📰 时政简报归档
