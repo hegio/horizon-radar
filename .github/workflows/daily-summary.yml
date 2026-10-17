@@ -51,6 +51,7 @@ jobs:
           MAAS_API_KEY: ${{ secrets.MAAS_API_KEY }}
           LOCAL_API_KEY: ${{ secrets.LOCAL_API_KEY }}
           GITHUB_TOKEN: ${{ github.token }}
+          HORIZON_WEBHOOK_URL: ${{ secrets.HORIZON_WEBHOOK_URL }}
         run: uv run horizon -c data/config.github.json --hours ${{ inputs.hours || '12' }} -l INFO
 
       - name: Build collapsible briefing page
