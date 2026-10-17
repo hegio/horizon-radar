@@ -7,6 +7,10 @@ detail (summary / background / impact / tags). Adds Jekyll front matter
 (the data/summaries source has none) and cleans Horizon's markdown-escaped
 HTML entities (&\\#x27; -> ').
 
+Filename patterns understood (dst):
+  2026-10-17-0314-summary-zh.md  -> date 2026-10-17, time 03:14
+  2026-10-17-summary-zh.md       -> date 2026-10-17 (legacy)
+
 Usage: make_collapsible.py <src.md> <dst.md>
 """
 import html
@@ -26,12 +30,12 @@ def front_matter_for(dst: pathlib.Path) -> str:
     if not m:
         return ""
     date, hhmm, lang = m.group(1), m.group(2), m.group(3)
-    stamp = f" {hhmm[:2]}:{hhmm[2:]}" if hhmm else ""
+    stamp = date if not hhmm else f"{date} {hhmm[:2]}:{hhmm[2:]}"
     return (
         "---\n"
-        'layout: default\n'
-        f'title: "Horizon Summary: {date}{stamp} ({lang.upper()})"\n'
-        f"date: {date}\n"
+        "layout: default\n"
+        f'title: "Horizon Summary: {stamp} ({lang.upper()})"\n'
+        f"date: {stamp}\n"
         f"lang: {lang}\n"
         "---\n\n"
     )
@@ -54,7 +58,6 @@ def convert(text: str, dst: pathlib.Path) -> str:
     group_pat = re.compile(r"(?m)^(## [^\n]+)\s*$")
 
     parts = re.split(group_pat, rest)
-    # parts: ['', '## g1', content1, '## g2', content2, ...]
     out = [header_line, ""]
     for i in range(1, len(parts), 2):
         heading = parts[i]

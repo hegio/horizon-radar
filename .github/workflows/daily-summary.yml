@@ -2,7 +2,7 @@ name: Daily Horizon Summary
 
 on:
   schedule:
-    # GitHub cron uses UTC. 19:00/07:00 UTC = 03:00/15:00 Asia/Taipei. Twice daily, 12h window.
+    # GitHub cron uses UTC. 21:00/09:00 UTC = 05:00/17:00 Asia/Taipei. Twice daily.
     - cron: '0 21 * * *'
     - cron: '0 9 * * *'
   workflow_dispatch:
@@ -59,6 +59,7 @@ jobs:
           python scripts/make_collapsible.py \
             "data/summaries/$(date +'%Y-%m-%d')-zh.md" \
             "docs/_posts/$(TZ=Asia/Taipei date +'%Y-%m-%d-%H%M')-summary-zh.md"
+          rm -f "docs/_posts/$(date +'%Y-%m-%d')-summary-zh.md"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
