@@ -22,14 +22,15 @@ def clean(text: str) -> str:
 
 
 def front_matter_for(dst: pathlib.Path) -> str:
-    m = re.search(r"(\d{4}-\d{2}-\d{2})-summary-([A-Za-z-]+)\.md$", dst.name)
+    m = re.search(r"(\d{4}-\d{2}-\d{2})(?:-(\d{4}))?-summary-([A-Za-z-]+)\.md$", dst.name)
     if not m:
         return ""
-    date, lang = m.group(1), m.group(2)
+    date, hhmm, lang = m.group(1), m.group(2), m.group(3)
+    stamp = f" {hhmm[:2]}:{hhmm[2:]}" if hhmm else ""
     return (
         "---\n"
         'layout: default\n'
-        f'title: "Horizon Summary: {date} ({lang.upper()})"\n'
+        f'title: "Horizon Summary: {date}{stamp} ({lang.upper()})"\n'
         f"date: {date}\n"
         f"lang: {lang}\n"
         "---\n\n"

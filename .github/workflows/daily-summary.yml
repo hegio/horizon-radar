@@ -58,7 +58,7 @@ jobs:
         run: |
           python scripts/make_collapsible.py \
             "data/summaries/$(date +'%Y-%m-%d')-zh.md" \
-            "docs/_posts/$(date +'%Y-%m-%d')-summary-zh.md"
+            "docs/_posts/$(TZ=Asia/Taipei date +'%Y-%m-%d-%H%M')-summary-zh.md"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
