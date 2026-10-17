@@ -57,7 +57,7 @@ jobs:
       - name: Build collapsible briefing page
         run: |
           python scripts/make_collapsible.py \
-            "data/summaries/$(date +'%Y-%m-%d')-zh.md" \
+            "data/summaries/horizon-$(date +'%Y-%m-%d')-zh.md" \
             "docs/_posts/$(TZ=Asia/Taipei date +'%Y-%m-%d-%H%M')-summary-zh.md"
           rm -f "docs/_posts/$(date +'%Y-%m-%d')-summary-zh.md"
 
