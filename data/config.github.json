@@ -18,7 +18,7 @@
     "default_profile": "world-news",
     "profile_settings": {
       "world-news": {
-        "threshold": 6.0,
+        "threshold": 5.5,
         "topic_dedup": true
       },
       "tech-news": {
@@ -26,7 +26,7 @@
         "topic_dedup": true
       },
       "tech-blog": {
-        "threshold": 4.0,
+        "threshold": 4.5,
         "topic_dedup": false
       },
       "finance-news": {
@@ -255,7 +255,7 @@
     }
   },
   "digest": {
-    "max_items": 30,
+    "max_items": 40,
     "profile_order": [
       "world-news",
       "tech-news",
@@ -265,14 +265,14 @@
     "category_groups": {
       "hk": {
         "name": "香港",
-        "limit": 5,
+        "limit": 7,
         "categories": [
           "hk-news"
         ]
       },
       "cn": {
         "name": "中国",
-        "limit": 6,
+        "limit": 12,
         "categories": [
           "cn-news"
         ]
@@ -300,7 +300,7 @@
       }
     },
     "default_group": "other",
-    "default_group_limit": 4
+    "default_group_limit": 6
   },
   "wechat": {
     "enabled": false
