@@ -278,14 +278,14 @@
     "category_groups": {
       "hk": {
         "name": "香港",
-        "limit": 5,
+        "limit": 7,
         "categories": [
           "hk-news"
         ]
       },
       "cn": {
         "name": "中国",
-        "limit": 8,
+        "limit": 11,
         "categories": [
           "cn-news"
         ]
@@ -300,7 +300,7 @@
       },
       "ai": {
         "name": "AI/科技",
-        "limit": 12,
+        "limit": 7,
         "categories": [
           "ai-news",
           "ai-tools",
@@ -313,7 +313,7 @@
       }
     },
     "default_group": "other",
-    "default_group_limit": 4
+    "default_group_limit": 5
   },
   "wechat": {
     "enabled": false
