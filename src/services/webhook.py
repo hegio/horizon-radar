@@ -7,7 +7,7 @@ import re
 from rich.console import Console
 from dataclasses import asdict, dataclass
 from enum import Enum
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import urlsplit
 from datetime import datetime, timezone
 from typing import Any, List, Optional, Union, cast
 import httpx
@@ -229,14 +229,19 @@ def _extract_headers(headers_str: Optional[str]) -> dict:
 
 
 def redact_url(url: str) -> str:
-    """Return a log-safe URL without query strings or fragments."""
+    """Return a log-safe URL with no path, query string, or fragment.
+
+    Only the scheme and netloc are kept; the path (which may contain
+    secrets such as Telegram bot tokens or Feishu hook tokens) is
+    replaced with "/<redacted>".
+    """
     try:
         parts = urlsplit(url)
     except ValueError:
         return "<invalid-url>"
     if not parts.scheme or not parts.netloc:
         return "<redacted-url>"
-    return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
+    return f"{parts.scheme}://{parts.netloc}/<redacted>"
 
 
 def redact_headers(headers: dict[str, str]) -> dict[str, str]:
@@ -275,8 +280,8 @@ class WebhookNotifier:
             httpx.URL(url)
         except (httpx.InvalidURL, UnsafeURLError) as e:
             raise ValueError(
-                f"Webhook URL is structurally invalid: '{url}' — {e} "
-                f"(env var '{self.config.url_env}')"
+                f"Webhook URL from env var '{self.config.url_env}' is structurally "
+                f"invalid ({type(e).__name__}); see the env var value for details"
             ) from e
         return url
 
@@ -629,12 +634,16 @@ class WebhookNotifier:
 
         except (httpx.InvalidURL, UnsafeURLError) as e:
             self.console.print(
-                f"[red]Webhook URL is invalid: {e}[/red]"
+                f"[red]Webhook URL is invalid ({type(e).__name__}); "
+                f"check env var '{self.config.url_env}'[/red]"
             )
-            logger.error("Webhook URL invalid: %s, env var: %s", e, self.config.url_env)
+            logger.error(
+                "Webhook URL invalid: %s, env var: %s",
+                type(e).__name__, self.config.url_env,
+            )
             return WebhookDeliveryResult(
                 WebhookDeliveryStatus.NETWORK_FAILURE,
-                detail=str(e),
+                detail=f"invalid webhook URL in env var '{self.config.url_env}' ({type(e).__name__})",
                 error_type="invalid_url",
             )
         except httpx.ConnectError as e:
